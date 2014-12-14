@@ -1,18 +1,56 @@
 <html>
 	<head>
-		<script src="js/mail-generator.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 		<link href="css/style.css" rel="stylesheet" media="screen">
+
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script src="js/mail-generator.js"></script>
+
+		
     <script>
       window.onload = function(){
         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
         // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
-        
+        var emails = '';
+        $.each(window.geemails, function (index, mail) {
+        	emails += '<tr data-email-index="' + index + '"><td>' + mail.date.toLocaleString() + '</td><td>' + mail.sender + '</td><td>' + mail.subject + '</td></tr>';
+        });
+        $('#email-list').append(emails);
+        $('#email-count').text(window.geemails.length);
       };
     </script>
 	</head>
 	<body>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+		        <div class="navbar-header">
+		          <a class="navbar-brand" href="#">GeeMail</a>
+		        </div>
+			</div>
+		</nav>
 		<div class="container" id="main">
-			Build Me!
+			<p style="margin-top: 100px;">test</p>
+			<div class="panel panel-default">
+			  <!-- Default panel contents -->
+			  <div class="panel-heading">Inbox
+			  <span class="pull-right">Email Count <span id="email-count" class="badge"></span></span>
+			  </div>
+
+			  <!-- Table -->
+			  <table class="table table-hover">
+			      <thead>
+			        <tr>
+			          <th>Date</th>
+			          <th>Sender</th>
+			          <th>Subject</th>
+			        </tr>
+			      </thead>
+			      <tbody id="email-list">
+			      </tbody>
+			    </table>
+			</div>
 		</div>
 	</body>
 </html>
