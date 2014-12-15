@@ -14,11 +14,35 @@
         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
         // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
         var emails = '';
+        var counter = $('#emailCount');
         $.each(window.geemails, function (index, mail) {
-        	emails += '<tr data-email-index="' + index + '"><td>' + mail.date.toLocaleString() + '</td><td>' + mail.sender + '</td><td>' + mail.subject + '</td></tr>';
+        	emails += '<tr class="bodyTrigger"><td>' + mail.date.toLocaleString() + '</td><td>' + mail.sender + '</td><td>' + mail.subject + '</td></tr><tr class="email-body"><td colspan="3">' + mail.body + '</td></tr>';
         });
-        $('#email-list').append(emails);
-        $('#email-count').text(window.geemails.length);
+        $('#emailList').append(emails);
+        counter.text(window.geemails.length);
+        $('.email-body').hide();
+        $('#emailList').on('click', '.bodyTrigger', function () {
+          $('.email-body').hide();
+          $('.selected').removeClass('selected');
+          $(this).addClass('selected').next().fadeToggle();
+        });
+
+        // Fetch new emails
+        setInterval(function () {
+          if (window.geemails.length < 30) {
+            window.geemails.unshift(getNewMessage());
+            var newEmail = window.geemails[0];
+            var newEmailElem = '<tr class="bodyTrigger"><td>' + newEmail.date.toLocaleString() + '</td><td>' + newEmail.sender + '</td><td>' + newEmail.subject + '</td></tr><tr class="email-body"><td colspan="3">' + newEmail.body + '</td></tr>';
+            $( "#emailList" ).find("tr").first().before( $( newEmailElem ) );
+            var currentSelected = $('.selected');
+            $('.email-body').hide();
+            if (currentSelected) {
+              currentSelected.next().show();
+            };
+
+            counter.text(window.geemails.length);
+          };
+        }, 10000); 
       };
     </script>
 	</head>
@@ -31,25 +55,23 @@
 			</div>
 		</nav>
 		<div class="container" id="main">
-			<p style="margin-top: 100px;">test</p>
 			<div class="panel panel-default">
 			  <!-- Default panel contents -->
 			  <div class="panel-heading">Inbox
-			  <span class="pull-right">Email Count <span id="email-count" class="badge"></span></span>
+			  <span class="pull-right">Email Count <span id="emailCount" class="badge"></span></span>
 			  </div>
-
 			  <!-- Table -->
-			  <table class="table table-hover">
-			      <thead>
-			        <tr>
-			          <th>Date</th>
-			          <th>Sender</th>
-			          <th>Subject</th>
-			        </tr>
-			      </thead>
-			      <tbody id="email-list">
-			      </tbody>
-			    </table>
+		  	<table class="table table-hover">
+		      <thead>
+		        <tr>
+		          <th>Date</th>
+		          <th>Sender</th>
+		          <th>Subject</th>
+		        </tr>
+		      </thead>
+		      <tbody id="emailList">
+		      </tbody>
+		    </table>
 			</div>
 		</div>
 	</body>

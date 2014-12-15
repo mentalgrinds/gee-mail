@@ -1,0 +1,19 @@
+#main {
+	margin-top: 6rem;
+}
+
+.selected {
+	background: #85A0D1;
+}
+
+.selected:hover {
+	background: #85A0D1 !important;	
+}
+
+.email-body {
+	background: #DBE5F9;
+}
+
+.email-body:hover {
+	background: #DBE5F9 !important;
+}
